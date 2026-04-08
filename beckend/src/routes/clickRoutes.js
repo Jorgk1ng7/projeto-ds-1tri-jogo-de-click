@@ -1,65 +1,57 @@
 const express = require("express");
 const router = express.Router();
+const fs = require("fs");
 
-// "Banco de dados fake"
-let clicks = [];
+const filePath = "./src/data.json";
 
-// 📌 GET todos os jogadores
+// função pra ler
+function readData() {
+    const data = fs.readFileSync(filePath);
+    return JSON.parse(data);
+}
+
+// função pra salvar
+function saveData(data) {
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+}
+
+// GET
 router.get("/", (req, res) => {
-    res.json(clicks);
+    const data = readData();
+    res.json(data);
 });
 
-// 📌 GET jogador por ID
-router.get("/:id", (req, res) => {
-    const player = clicks.find(p => p.id == req.params.id);
-
-    if (!player) {
-        return res.status(404).json({ error: "Jogador não encontrado" });
-    }
-
-    res.json(player);
-});
-
-// 📌 POST criar jogador
+// POST
 router.post("/", (req, res) => {
-    const { user } = req.body;
-
-    if (!user) {
-        return res.status(400).json({ error: "Nome é obrigatório" });
-    }
+    const data = readData();
 
     const newPlayer = {
-        id: clicks.length + 1,
-        user: user,
+        id: data.length + 1,
+        user: req.body.user,
         totalClicks: 0
     };
 
-    clicks.push(newPlayer);
+    data.push(newPlayer);
+    saveData(data);
 
     res.status(201).json(newPlayer);
 });
 
-// 📌 PUT clicar (aqui é o jogo acontecendo)
+// CLICK
 router.put("/:id/click", (req, res) => {
-    const player = clicks.find(p => p.id == req.params.id);
+    const data = readData();
+
+    const player = data.find(p => p.id == req.params.id);
 
     if (!player) {
-        return res.status(404).json({ error: "Jogador não encontrado" });
+        return res.status(404).json({ error: "Não encontrado" });
     }
 
     player.totalClicks += 1;
 
-    res.json({
-        message: "Click registrado!",
-        totalClicks: player.totalClicks
-    });
-});
+    saveData(data);
 
-// 📌 DELETE jogador
-router.delete("/:id", (req, res) => {
-    clicks = clicks.filter(p => p.id != req.params.id);
-
-    res.json({ message: "Jogador removido" });
+    res.json(player);
 });
 
 module.exports = router;
