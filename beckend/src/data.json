@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "user": "teste",
+    "totalClicks": 0
+  },
+  {
+    "id": 2,
+    "user": "clicker",
+    "totalClicks": 1
+  },
+  {
+    "id": 3,
+    "user": "player",
+    "totalClicks": 1
+  },
+  {
+    "id": 4,
+    "user": "teste",
+    "totalClicks": 0
+  },
+  {
+    "id": 5,
+    "user": "clicker",
+    "totalClicks": 1
+  },
+  {
+    "id": 6,
+    "user": "player",
+    "totalClicks": 1
+  },
+  {
+    "id": 7,
+    "user": "player",
+    "totalClicks": 0
+  }
+]
