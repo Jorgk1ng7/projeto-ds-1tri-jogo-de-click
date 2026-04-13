@@ -30,7 +30,7 @@ export default function HomeScreen() {
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
         <Image
-          source={require('@/assets/images/partial-react-logo.png')}
+          source={require('@/assets/images/jj.png')}
           style={styles.reactLogo}
         />
       }>
@@ -126,6 +126,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+    color: "white",
+    fontSize: 40,
   },
   loginContainer: {
     flex: 1,
@@ -147,8 +149,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   reactLogo: {
-    height: 178,
-    width: 290,
+    height: 250,
+    width: 400,
     bottom: 0,
     left: 0,
     position: 'absolute',
