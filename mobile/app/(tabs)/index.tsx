@@ -5,13 +5,16 @@ import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
 import { useState } from 'react';
 import { Alert, Button, Image, Platform, StyleSheet, TextInput } from 'react-native';
-
+import { useRouter } from 'expo-router'; // Importando o hook useRouter
 
 export default function HomeScreen() {
   // Estado para login
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Instanciando o hook useRouter
+  const router = useRouter();
 
   const handleLogin = () => {
     // Validação simples
@@ -23,6 +26,9 @@ export default function HomeScreen() {
     // Simula o login bem-sucedido
     setIsLoggedIn(true);
     Alert.alert('Sucesso', 'Login realizado com sucesso!');
+
+    // Direciona para a próxima página (Explore.tsx)
+    router.push('/explore');
   };
 
   return (
@@ -59,7 +65,7 @@ export default function HomeScreen() {
         </ThemedView>
       ) : (
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type="title"></ThemedText>login realizado com sucesso
+          <ThemedText type="title">Login realizado com sucesso</ThemedText>
           <HelloWave />
         </ThemedView>
       )}
@@ -75,7 +81,6 @@ export default function HomeScreen() {
               web: '',
             })}
           </ThemedText>{' '}
-
         </ThemedText>
       </ThemedView>
 
@@ -103,9 +108,7 @@ export default function HomeScreen() {
           </Link.Menu>
         </Link>
 
-        <ThemedText>
-
-        </ThemedText>
+        <ThemedText></ThemedText>
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    color: "white",
+    color: 'white',
     fontSize: 40,
   },
   loginContainer: {
@@ -142,7 +145,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingLeft: 8,
-    color: "white",
+    color: 'white',
   },
   stepContainer: {
     gap: 8,
