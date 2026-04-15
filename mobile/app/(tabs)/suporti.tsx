@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { Button, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
 
 // Importe sua imagem
-import BackgroundImage from "../../assets/images/ribbon-minimalist-black-phone.jpg"; // ajuste o caminho conforme a sua estrutura
+import BackgroundImage from "../../assets/images/download.png"; // ajuste o caminho conforme a sua estrutura
+
 
 function ContactForm() {
   const [email, setEmail] = useState('');
@@ -67,7 +68,7 @@ function ContactForm() {
         />
 
         {error && <Text style={styles.errorMessage}>{error}</Text>}
-        {success && <Text style={styles.successMessage}>Obrigado por entrar em contato!</Text>}
+        {success && <Text style={styles.successMessage}>Obrigado por entrar em contato!!!!</Text>}
 
         <Button
           title={loading ? 'Submitting...' : 'Submit'}
@@ -86,6 +87,8 @@ export default function App() {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+    height: -40,
+    width: -100
   },
   container: {
     flex: 1,
@@ -125,7 +128,7 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     fontSize: 16,
-    color: 'red',
+    color: 'purple',
     textAlign: 'center',
     marginBottom: 10,
   },
