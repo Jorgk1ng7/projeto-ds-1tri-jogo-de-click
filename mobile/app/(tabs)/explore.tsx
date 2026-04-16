@@ -1,126 +1,170 @@
 import { Image } from 'expo-image';
-import { StyleSheet, Pressable, Button, View } from 'react-native';
+import { StyleSheet, Pressable, View, ScrollView, Animated } from 'react-native';
 import { useState } from 'react';
 
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Fonts } from '@/constants/theme';
 
 export default function TabTwoScreen() {
-  const [clickCount, setClickCount] = useState(0); // Contador de cliques
-  const [clickPower, setClickPower] = useState(1); // Poder de clique
-  const [upgradeCost, setUpgradeCost] = useState(10); // Custo inicial do upgrade
-  const [pets, setPets] = useState(0); // Número de pets adquiridos
-  const [rebirthCount, setRebirthCount] = useState(0); // Contador de rebirths
+  const [clickCount, setClickCount] = useState(0);
+  const [clickPower, setClickPower] = useState(1);
+  const [rebirthCount, setRebirthCount] = useState(0);
+
+  const [scaleAnim] = useState(new Animated.Value(1));
+
+  const upgrades = [
+    { name: 'Upgrade 1', cost: 10, power: 1 },
+    { name: 'Upgrade 2', cost: 20, power: 2 },
+    { name: 'Upgrade 3', cost: 50, power: 3 },
+    { name: 'Upgrade 4', cost: 100, power: 5 },
+    { name: 'Upgrade 5', cost: 200, power: 8 },
+    { name: 'Upgrade 6', cost: 400, power: 13 },
+    { name: 'Upgrade 7', cost: 800, power: 21 },
+    { name: 'Upgrade 8', cost: 1600, power: 34 },
+    { name: 'Upgrade 9', cost: 3200, power: 55 },
+    { name: 'Upgrade 10', cost: 6400, power: 89 },
+  ];
 
   const handleCapivaraClick = () => {
-    setClickCount((prev) => prev + clickPower); // Incrementa com base no poder de clique
+    Animated.sequence([
+      Animated.timing(scaleAnim, { toValue: 1.2, duration: 100, useNativeDriver: true }),
+      Animated.timing(scaleAnim, { toValue: 1, duration: 100, useNativeDriver: true }),
+    ]).start();
+
+    setClickCount((prev) => prev + clickPower);
   };
 
-  const handleUpgrade = () => {
-    if (clickCount >= upgradeCost) {
-      setClickCount((prev) => prev - upgradeCost); // Paga o custo
-      setClickPower((prev) => prev + 1); // Aumenta o poder de clique
-      setUpgradeCost((prev) => prev * 2); // Dobra o custo para o próximo upgrade
-    }
-  };
-
-  const handleBuyPet = () => {
-    const petCost = 50 * (pets + 1); // O custo aumenta a cada pet
-    if (clickCount >= petCost) {
-      setClickCount((prev) => prev - petCost); // Deduz os cliques
-      setPets((prev) => prev + 1); // Compra o pet
-      setClickPower((prev) => prev + 2); // Aumenta o poder de clique com o pet
+  const handleUpgrade = (upgrade) => {
+    if (clickCount >= upgrade.cost) {
+      setClickCount((prev) => prev - upgrade.cost);
+      setClickPower((prev) => prev + upgrade.power);
     }
   };
 
   const handleRebirth = () => {
-    if (clickCount >= 1000) { // Exemplo de requisito para rebirth
-      setClickCount(0); // Zera os cliques
-      setClickPower(1); // Zera o poder de clique
-      setRebirthCount((prev) => prev + 1); // Incrementa o contador de rebirths
-      setUpgradeCost(10); // Restaura o custo inicial de upgrades
-      alert('Rebirth realizado com sucesso! Você ganhou um bônus.');
+    if (clickCount >= 1000) {
+      const bonusMultiplier = rebirthCount + 1; // Multiplicador crescente
+      setClickCount(0);
+      setClickPower(1 * bonusMultiplier); // Reset + bônus do rebirth
+      setRebirthCount((prev) => prev + 1);
+      alert(`Rebirth realizado! Seu poder de clique inicial agora é ${1 * bonusMultiplier}`);
     }
   };
 
   return (
-    <View
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-    >
-      {/* Jogo de Clique na Capivara */}
+    <ScrollView contentContainerStyle={styles.container}>
       <ThemedView style={styles.gameContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-            marginBottom: 10,
-          }}>
+        <ThemedText type="title" style={styles.title}>
           Jogo da Capivara
         </ThemedText>
 
-        <ThemedText type="subtitle">Clique na capivara!</ThemedText>
+        <ThemedText type="subtitle" style={{ color: '#fff' }}>Clique na capivara!</ThemedText>
 
-        {/* Imagem da capivara clicável */}
         <Pressable onPress={handleCapivaraClick}>
-          <Image
-            source={require('../../assets/images/capivara.png')} // Imagem da capivara
-            style={styles.capivaraImage}
+          <Animated.Image
+            source={require('../../assets/images/capivara.png')}
+            style={[styles.capivaraImage, { transform: [{ scale: scaleAnim }] }]}
           />
         </Pressable>
 
-        {/* Exibe o contador de cliques e o poder de clique */}
-        <ThemedText type="defaultSemiBold">Cliques: {clickCount}</ThemedText>
-        <ThemedText type="defaultSemiBold">Poder de clique: {clickPower}</ThemedText>
-
-        {/* Botão de upgrade */}
-        <View style={{ marginTop: 20 }}>
-          <Button
-            title={`Upgrade de poder de clique (Custa ${upgradeCost} cliques)`}
-            onPress={handleUpgrade}
-            disabled={clickCount < upgradeCost}
-          />
+        <View style={styles.statsContainer}>
+          <ThemedText type="defaultSemiBold" style={{ color: '#fff' }}>Cliques: {clickCount}</ThemedText>
+          <ThemedText type="defaultSemiBold" style={{ color: '#fff' }}>Poder de clique: {clickPower}</ThemedText>
         </View>
 
-        {/* Botão para comprar pets */}
-        <View style={{ marginTop: 20 }}>
-          <Button
-            title={`Comprar pet (Custa ${50 * (pets + 1)} cliques)`}
-            onPress={handleBuyPet}
-            disabled={clickCount < 50 * (pets + 1)}
-          />
-          <ThemedText type="defaultSemiBold" style={{ marginTop: 10 }}>
-            Pets adquiridos: {pets}
-          </ThemedText>
+        <View style={styles.upgradesContainer}>
+          {upgrades.map((upgrade, index) => (
+            <Pressable
+              key={index}
+              style={[
+                styles.upgradeButton,
+                clickCount < upgrade.cost && { backgroundColor: '#555' },
+              ]}
+              onPress={() => handleUpgrade(upgrade)}
+              disabled={clickCount < upgrade.cost}
+            >
+              <ThemedText style={styles.upgradeText}>
+                {upgrade.name} (+{upgrade.power}) - {upgrade.cost} cliques
+              </ThemedText>
+            </Pressable>
+          ))}
         </View>
 
-        {/* Botão de rebirth */}
-        <View style={{ marginTop: 20 }}>
-          <Button
-            title={`Rebirth (Custa 1000 cliques)`}
-            onPress={handleRebirth}
-            disabled={clickCount < 1000}
-          />
-          <ThemedText type="defaultSemiBold" style={{ marginTop: 10 }}>
-            Rebirths realizados: {rebirthCount}
-          </ThemedText>
-        </View>
+        <Pressable
+          style={[
+            styles.rebirthButton,
+            clickCount < 1000 && { backgroundColor: '#555' },
+          ]}
+          onPress={handleRebirth}
+          disabled={clickCount < 1000}
+        >
+          <ThemedText style={styles.upgradeText}>Rebirth (1000 cliques)</ThemedText>
+        </Pressable>
+
+        <ThemedText type="defaultSemiBold" style={{ marginTop: 10, color: '#fff' }}>
+          Rebirths realizados: {rebirthCount}
+        </ThemedText>
       </ThemedView>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  gameContainer: {
-    justifyContent: 'center',
+  container: {
+    paddingVertical: 40,
     alignItems: 'center',
-    marginVertical: 40,
+    backgroundColor: '#000', // Fundo preto
+  },
+  gameContainer: {
+    width: '90%',
+    alignItems: 'center',
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor: '#1a1a1a', // Card escuro para contraste
+    shadowColor: '#000',
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 5 },
+  },
+  title: {
+    fontFamily: Fonts.rounded,
+    marginBottom: 10,
+    color: '#fff',
   },
   capivaraImage: {
     width: 180,
     height: 180,
     borderRadius: 20,
-    marginBottom: 15,
+    marginVertical: 15,
+  },
+  statsContainer: {
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+  upgradesContainer: {
+    width: '100%',
+    marginTop: 20,
+  },
+  upgradeButton: {
+    backgroundColor: '#4db6ac',
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    marginVertical: 5,
+    alignItems: 'center',
+  },
+  rebirthButton: {
+    backgroundColor: '#ff8a65',
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    marginTop: 20,
+    width: '100%',
+    alignItems: 'center',
+  },
+  upgradeText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
