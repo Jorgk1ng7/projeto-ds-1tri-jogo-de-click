@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  capiContainer: { width: screenWidth * 0.1, height: screenWidth * 0.1 },
+  capiContainer: { width: screenWidth * 0.9, height: screenWidth * 0.4 },
   capiImage: { width: '100%', height: '100%' },
   
   particle: {
