@@ -5,7 +5,6 @@ import { Button, ImageBackground, StyleSheet, Text, TextInput, View } from 'reac
 // Importe sua imagem
 import BackgroundImage from "../../assets/images/download.png"; // ajuste o caminho conforme a sua estrutura
 
-
 function ContactForm() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -20,24 +19,25 @@ function ContactForm() {
 
     try {
       const response = await axios.post(
-        'https://formspree.io/f/xvzvndgw',
+        'https://formspree.io/f/xbdqqjrd',
         { email, message },
         { headers: { 'Content-Type': 'application/json' } }
       );
 
       if (response.status === 200) {
         setSuccess(true);
-        setEmail(''); // limpa o input
-        setMessage(''); // limpa a mensagem
+        setEmail('');
+        setMessage('');
+      } else {
+        setError('Algo deu errado. Tente novamente mais tarde.');
       }
     } catch (err) {
-      setError('Failed to send message. Please try again later.');
+      setError('Falha ao enviar a mensagem. Tente novamente mais tarde.');
     } finally {
       setLoading(false);
     }
   };
 
-  // Faz a mensagem de sucesso desaparecer após 5 segundos
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => setSuccess(false), 5000);
@@ -68,10 +68,10 @@ function ContactForm() {
         />
 
         {error && <Text style={styles.errorMessage}>{error}</Text>}
-        {success && <Text style={styles.successMessage}>Obrigado por entrar em contato!!!!</Text>}
+        {success && <Text style={styles.successMessage}>Obrigado por entrar em contato!</Text>}
 
         <Button
-          title={loading ? 'Submitting...' : 'Submit'}
+          title={loading ? 'Enviando...' : 'Enviar'}
           onPress={handleSubmit}
           disabled={loading}
         />
@@ -87,49 +87,51 @@ export default function App() {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    height: -40,
-    width: -100
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%'
   },
   container: {
-    flex: 1,
+    width: '90%',
     padding: 20,
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.2)', // Transparência para ver o fundo
+    backgroundColor: 'rgba(255,255,255,0.1)', // transparente
+    borderRadius: 10,
   },
   label: {
-    fontSize: 18,
-    marginBottom: 10,
-    color: '#fff', // Melhor visibilidade sobre o fundo
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: '#fff',
   },
   input: {
-    height: 40,
-    borderColor: '#ccc',
     borderWidth: 1,
-    marginBottom: 20,
-    paddingLeft: 10,
+    borderColor: '#ccc',
     borderRadius: 5,
-    backgroundColor: 'rgba(255,255,255,0.8)', // Leve fundo para destacar
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: 'rgba(255,255,255,0.3)', 
+    color: '#000',
   },
   textarea: {
-    height: 100,
-    borderColor: '#ccc',
     borderWidth: 1,
-    marginBottom: 20,
-    paddingLeft: 10,
+    borderColor: '#ccc',
     borderRadius: 5,
-    textAlignVertical: 'top',
-    backgroundColor: 'rgba(255,255,255,0.8)',
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    color: '#000',
+    height: 100,
   },
   successMessage: {
-    fontSize: 18,
-    color: 'green',
-    textAlign: 'center',
+    fontSize: 16,
+    color: 'lightgreen',
     marginBottom: 10,
+    textAlign: 'center',
   },
   errorMessage: {
     fontSize: 16,
-    color: 'purple',
-    textAlign: 'center',
+    color: 'red',
     marginBottom: 10,
+    textAlign: 'center',
   },
 });

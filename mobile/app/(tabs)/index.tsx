@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     gap: 8,
     color: 'white',
     fontSize: 40,
+    fontStyle:"italic"
   },
   loginContainer: {
     flex: 1,
@@ -146,6 +147,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingLeft: 8,
     color: 'white',
+fontStyle: "italic"
   },
   stepContainer: {
     gap: 8,
