@@ -23,7 +23,7 @@ Integração com aplicativo mobile
 
 Testes Automatizados
 python -m pytest
-🔗 Endpoints da API
+ Endpoints da API
 Método	Rota	Descrição
 GET	/clicks	Lista jogadores
 POST	/clicks	Cria jogador
