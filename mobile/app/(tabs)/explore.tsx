@@ -143,7 +143,7 @@ export default function TabTwoScreen() {
             columnWrapperStyle={styles.gridRow}
             contentContainerStyle={styles.scrollList}
           />
-
+          <View  style={[styles.banana, { opacity: canRebirth ? 1 : 0.6 }]}>
           {/* Botão de Renascimento */}
           <Pressable 
             style={[styles.rebirthButton, { opacity: canRebirth ? 1 : 0.6 }]} 
@@ -153,6 +153,7 @@ export default function TabTwoScreen() {
             <Text style={styles.rebirthButtonText}>🔄 Renascimento</Text>
             <Text style={styles.rebirthButtonCost}>💰 Custo: {rebirthCost.toLocaleString()}</Text>
           </Pressable>
+          </View>
         </View>
 
       </ThemedView>
@@ -161,6 +162,12 @@ export default function TabTwoScreen() {
 }
 
 const styles = StyleSheet.create({
+  banana:{
+display:'flex',
+flexDirection: 'row',
+alignItems:'center',
+justifyContent: 'center'
+  },
   safeArea: { flex: 1, backgroundColor: '#0f172a' },
   container: { flex: 1 },
   
