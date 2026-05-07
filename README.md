@@ -72,4 +72,4 @@ Parte do login
 
 Bom nessa parte foi feito a mudança da imagem para a logo do site, e a parte do login com espaços pra colocar email e a senha logicamente funcional porem nao ira salvar o progresso, e tambem foi feito a parte que direciona o usuario direto para o jogo.
 
-<img width="600" height="240" alt="image" src="mobile\assets\images\Captura de tela 2026-05-07 102622.png" />
+<img width="400" height="540" alt="image" src="mobile\assets\images\Captura de tela 2026-05-07 102622.png" />
