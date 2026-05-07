@@ -118,19 +118,28 @@ export default function TabTwoScreen() {
 
         {/* MIDDLE: Área da Capivara (Livre) */}
         <View style={styles.clickZone}>
-          {particles.map(p => (
-            <Text key={p.id} style={[styles.particle, { left: p.x, top: p.y }]}>+{p.val}</Text>
-          ))}
-          <Pressable onPress={handleCapivaraClick}>
-            <Animated.View style={[styles.capiContainer, animatedStyle]}>
-              <Image 
-                source={require('../../assets/images/rapaz.png')} 
-                style={styles.capiImage} 
-                contentFit="contain" 
-              />
-            </Animated.View>
-          </Pressable>
-        </View>
+  {particles.map(p => (
+    <Text
+      key={p.id}
+      style={[styles.particle, { left: p.x, top: p.y }]}
+    >
+      +{p.val}
+    </Text>
+  ))}
+
+  <Pressable
+    testID="capivara-button"
+    onPress={handleCapivaraClick}
+  >
+    <Animated.View style={[styles.capiContainer, animatedStyle]}>
+      <Image
+        source={require('../../assets/images/rapaz.png')}
+        style={styles.capiImage}
+        contentFit="contain"
+      />
+    </Animated.View>
+  </Pressable>
+</View>
 
         {/* BOTTOM: Shop (Altura Controlada) */}
         <View style={styles.shopWrapper}>
@@ -146,13 +155,19 @@ export default function TabTwoScreen() {
           <View  style={[styles.banana, { opacity: canRebirth ? 1 : 0.6 }]}>
           {/* Botão de Renascimento */}
           <Pressable 
-            style={[styles.rebirthButton, { opacity: canRebirth ? 1 : 0.6 }]} 
-            onPress={handleRebirth}
-            disabled={!canRebirth}
-          >
-            <Text style={styles.rebirthButtonText}>🔄 Renascimento</Text>
-            <Text style={styles.rebirthButtonCost}>💰 Custo: {rebirthCost.toLocaleString()}</Text>
-          </Pressable>
+  testID="rebirth-button"
+  style={[styles.rebirthButton, { opacity: canRebirth ? 1 : 0.6 }]} 
+  onPress={handleRebirth}
+  disabled={!canRebirth}
+>
+  <Text style={styles.rebirthButtonText}>
+    🔄 Renascimento
+  </Text>
+
+  <Text style={styles.rebirthButtonCost}>
+    💰 Custo: {rebirthCost.toLocaleString()}
+  </Text>
+</Pressable>
           </View>
         </View>
 
@@ -184,7 +199,7 @@ justifyContent: 'center'
     justifyContent: 'center',
     alignItems: 'center',
   },
-  capiContainer: { width: screenWidth * 0.1, height: screenWidth * 0.1 },
+  capiContainer: { width: screenWidth * 0.2, height: screenWidth * 0.5 },
   capiImage: { width: '100%', height: '100%' },
   
   particle: {

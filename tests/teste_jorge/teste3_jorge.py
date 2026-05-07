@@ -3,51 +3,66 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException
 
-def test_click_and_rebirth():
-    # Inicia o navegador
+def test_click_capivara():
+
     driver = webdriver.Chrome()
     driver.maximize_window()
+
     wait = WebDriverWait(driver, 10)
 
     try:
-        driver.get("http://localhost:8081/explore")  # Acesse a página desejada
-        
-        # Definir o XPath do botão de cliques
-        botao_xpath = "//*[contains(text(), 'entrar')] | //*[contains(text(), 'ENTRAR')] | //*[@id='botao-entrar']"
-        
-        # Aguardar até que o botão esteja clicável
-        botao_entrar = wait.until(EC.element_to_be_clickable((By.XPATH, botao_xpath)))
+        driver.get("http://localhost:8081/explore")
 
-        # Realizar 1000 cliques
-        print("Iniciando o clique de 1000 vezes...")
+        print("Página carregada!")
+
+        # inicia cronômetro
+        inicio = time.time()
+
         for i in range(1000):
-            driver.execute_script("arguments[0].click();", botao_entrar)
-            time.sleep(0.01)  # Pequeno atraso entre os cliques para evitar travamentos
 
-            # Exibe o progresso a cada 100 cliques
-            if i % 100 == 0:
-                print(f"Progresso: {i} cliques")
+            try:
+                # procura novamente o elemento
+                capivara = wait.until(
+                    EC.presence_of_element_located(
+                        (By.CSS_SELECTOR, '[data-testid="capivara-button"]')
+                    )
+                )
 
-        # Agora, clicar no botão de "rebirth"
-        rebirth_xpath = "//*[contains(text(), 'Renascimento')] | //*[@id='botao-renascimento']"  # Ajuste o XPath conforme necessário
-        rebirth_button = wait.until(EC.element_to_be_clickable((By.XPATH, rebirth_xpath)))
-        
-        print("Clicando para realizar o rebirth...")
-        rebirth_button.click()  # Clica no botão de rebirth
-        
-        # Tirar uma captura de tela após o rebirth
-        driver.save_screenshot("rebirth_sucesso.png")
-        print("Rebirth realizado e captura de tela salva.")
+                # realiza o clique
+                driver.execute_script(
+                    "arguments[0].click();",
+                    capivara
+                )
+
+                # progresso
+                if i % 100 == 0:
+                    print(f"{i} cliques realizados")
+
+                time.sleep(0.01)
+
+            except StaleElementReferenceException:
+                print("Elemento atualizado pelo React, tentando novamente...")
+                continue
+
+        # finaliza cronômetro
+        fim = time.time()
+
+        tempo_total = fim - inicio
+
+        print("\nTeste concluído!")
+        print(f"Tempo total: {tempo_total:.2f} segundos")
+
+        driver.save_screenshot("teste_sucesso.png")
 
     except Exception as e:
-        print(f"Erro durante o teste: {e}")
-        driver.save_screenshot("erro_teste_rebirth.png")
-        raise e
+        print("Erro:", e)
+        driver.save_screenshot("erro.png")
+        raise
 
     finally:
-        # Fechar o navegador após o teste
         driver.quit()
 
 if __name__ == "__main__":
-    test_click_and_rebirth()
+    test_click_capivara()

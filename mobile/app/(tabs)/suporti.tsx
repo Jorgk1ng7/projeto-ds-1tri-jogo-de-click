@@ -49,32 +49,55 @@ function ContactForm() {
     <ImageBackground source={BackgroundImage} style={styles.background} resizeMode="cover">
       <View style={styles.container}>
         <Text style={styles.label}>Coloque Seu Email</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Seu Email"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={setEmail}
-        />
 
-        <Text style={styles.label}>Escreva Sua Mensagem</Text>
-        <TextInput
-          style={styles.textarea}
-          placeholder="Sua Mensagem"
-          multiline
-          numberOfLines={4}
-          value={message}
-          onChangeText={setMessage}
-        />
+<TextInput
+  testID="email-input"
+  style={styles.input}
+  placeholder="Seu Email"
+  keyboardType="email-address"
+  value={email}
+  onChangeText={setEmail}
+/>
 
-        {error && <Text style={styles.errorMessage}>{error}</Text>}
-        {success && <Text style={styles.successMessage}>Obrigado por entrar em contato!</Text>}
+<Text style={styles.label}>
+  Escreva Sua Mensagem
+</Text>
 
-        <Button
-          title={loading ? 'Enviando...' : 'Enviar'}
-          onPress={handleSubmit}
-          disabled={loading}
-        />
+<TextInput
+  testID="message-input"
+  style={styles.textarea}
+  placeholder="Sua Mensagem"
+  multiline
+  numberOfLines={4}
+  value={message}
+  onChangeText={setMessage}
+/>
+
+{error && (
+  <Text
+    testID="error-message"
+    style={styles.errorMessage}
+  >
+    {error}
+  </Text>
+)}
+
+{success && (
+  <Text
+    testID="success-message"
+    style={styles.successMessage}
+  >
+    Obrigado por entrar em contato!
+  </Text>
+)}
+
+<View testID="submit-button">
+  <Button
+    title={loading ? 'Enviando...' : 'Enviar'}
+    onPress={handleSubmit}
+    disabled={loading}
+  />
+</View>
       </View>
     </ImageBackground>
   );

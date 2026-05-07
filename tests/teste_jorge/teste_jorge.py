@@ -12,11 +12,11 @@ def test_login_campos_vazios():
 
     try:
         # Abrir a página do sistema
-        driver.get("http://localhost:8081")
+        driver.get("http://localhost:8081/explore")
 
         # Interagir com o campo de email
         email_xpath = "//input[@placeholder='Email'] | //*[@id='input-email']"
-        campo_email = wait_until_element_visible(wait, email_xpath)
+        campo_email = wait_until_element_visible(wait, email_xpath) 
         campo_email.clear()
         campo_email.send_keys("")  # Deixar o campo de email vazio
 
