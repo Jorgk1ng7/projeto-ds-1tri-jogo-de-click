@@ -64,6 +64,12 @@ dentro do VSCODE
 
 <img width="1242" height="240" alt="image" src="https://github.com/user-attachments/assets/a2c443d6-94f2-4bc1-9a25-798146440c42" />
 
+
+
+
 Parte do login
+
+
 Bom nessa parte foi feito a mudança da imagem para a logo do site, e a parte do login com espaços pra colocar email e a senha logicamente funcional porem nao ira salvar o progresso, e tambem foi feito a parte que direciona o usuario direto para o jogo.
 
+<img width="1242" height="240" alt="image" src="mobile\assets\images\Captura de tela 2026-05-07 102622.png" />
