@@ -48,10 +48,10 @@ function ContactForm() {
   return (
     <ImageBackground source={BackgroundImage} style={styles.background} resizeMode="cover">
       <View style={styles.container}>
-        <Text style={styles.label}>Coloque Seu Email</Text>
+      <Text style={styles.label}>Coloque Seu Email</Text>
 
 <TextInput
-  testID="email-input"
+  testID="email_input"
   style={styles.input}
   placeholder="Seu Email"
   keyboardType="email-address"
@@ -64,7 +64,7 @@ function ContactForm() {
 </Text>
 
 <TextInput
-  testID="message-input"
+  testID="message_input"
   style={styles.textarea}
   placeholder="Sua Mensagem"
   multiline
@@ -93,6 +93,7 @@ function ContactForm() {
 
 <View testID="submit-button">
   <Button
+  testID="button"
     title={loading ? 'Enviando...' : 'Enviar'}
     onPress={handleSubmit}
     disabled={loading}
